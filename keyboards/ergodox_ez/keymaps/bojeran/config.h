@@ -18,3 +18,15 @@
 #define DISABLE_RGB_MATRIX_ALPHAS_MODS
 #define DISABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
 #define DISABLE_RGB_MATRIX_RAINDROPS
+
+
+// My stuff
+// Free up space
+#undef NO_DEBUG
+#define NO_DEBUG
+
+#undef NO_PRINT
+#define NO_PRINT
+
+// Press more then 6 keys
+#define FORCE_NKRO

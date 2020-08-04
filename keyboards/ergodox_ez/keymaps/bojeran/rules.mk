@@ -6,3 +6,9 @@ AUTO_SHIFT_ENABLE = yes
 SRC = matrix.c
 RGBLIGHT_ENABLE = no
 RGB_MATRIX_ENABLE = yes
+
+
+# My Stuff
+MOUSEKEY_ENABLE = no
+NKRO_ENABLE = yes
+
