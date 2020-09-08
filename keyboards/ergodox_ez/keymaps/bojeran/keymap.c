@@ -53,25 +53,27 @@ enum {
 qk_tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_ESC_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CAPS),
+
     // Comma once for Comma, twice for toggle layer to gaming, tripple for toggle layer to gaming 2
     // That doesn't work out, because you can't get back except you make the key transparent in the
     // gaming layer, which doesn't make sense. You could change to a layer which still have the comma
     // at the same position.
     //[TD_COMMA_TG] = ACTION_TAP_DANCE_LAYER_MOVE(KC_COMMA, 7),
+
     // The Layer you switch to must have a transparent key at that location!
-    // Create it for activating arrow keys
-    [TD_NO_TG] = ACTION_TAP_DANCE_LAYER_MOVE(KC_NO, 13),
+    // Create it for activating arrow keys. TG(13) is used instead.
+    //[TD_NO_TG] = ACTION_TAP_DANCE_LAYER_MOVE(KC_NO, 13),
+
     //KC_COMMA
     // MEDIA_PLAY_PAUSE once for MEDIA_PLAY_PAUSE, twice for MEDIA_NEXT_TRACK, tripple for MEDIA_PREV_TRACK
+
     // in vim layer: the key 4 (DOLLAR) once for END and two times for f4
     [TD_END_F4] = ACTION_TAP_DANCE_DOUBLE(KC_END, KC_F4),
-
-
-
-
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  // - Fallback: In Case KZ_TRANSPARENT is used, it will Fallback to a key in this Layer
+  // - Testing: Quickly test new key combinations.
   [0] = LAYOUT_ergodox_pretty(
     TD(TD_ESC_CAPS),KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_NO,                                          KC_NO,          KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPACE,
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           DE_PLUS,        DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_UE,
@@ -82,6 +84,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_AUDIO_MUTE,  KC_MEDIA_PLAY_PAUSE,
                                                                                     KC_SPACE,       KC_BSPACE,      KC_MEDIA_PLAY_PAUSE,KC_AUDIO_MUTE,  KC_DELETE,      KC_SPACE
   ),
+  // - Control: Turn on or off Features, Switch to the Layer you like.
+  // - Testing: Test Features, Macros, Special Settings
   [1] = LAYOUT_ergodox_pretty(
     KC_NO,          ST_MACRO_0,     ST_MACRO_1,     KC_NO,          KC_NO,          KC_NO,          TG(2),                                          TG(7),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          RESET,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          TG(8),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
@@ -92,26 +96,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
+  // Windows (OS) Layout with special Vim Layer (11)
   [2] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_TRANSPARENT,                                 TG(3),          KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPACE,
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           DE_PLUS,        DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
-    DE_CIRC,        LT(11,KC_A),    LCTL_T(KC_S),   LALT_T(KC_D),   LGUI_T(KC_F),   KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           DE_HASH,        KC_ENTER,
-    KC_LSHIFT,      LCTL_T(DE_Y),   KC_X,           KC_C,           KC_V,           KC_B,           LALT(LCTL(KC_TAB)),                             DE_GRV,         KC_N,           RGUI_T(KC_M),   KC_COMMA,       KC_DOT,         DE_MINS,        KC_RSHIFT,
-    KC_NO,          DE_LESS,        KC_LCTRL,       KC_LALT,        OSL(11),                                                                                                        DE_UE,          DE_PLUS,        KC_RALT,        TG(13),         DE_AE,
+    DE_CIRC,        LT(11,KC_A),    LCTL_T(KC_S),   LALT_T(KC_D),   LCTL_T(KC_F),   KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           DE_HASH,        KC_ENTER,
+    KC_LSHIFT,      LCTL_T(DE_Y),   KC_X,           KC_C,           LGUI_T(KC_V),   KC_B,           LALT(LCTL(KC_TAB)),                             DE_GRV,         KC_N,           RGUI_T(KC_M),   KC_COMMA,       KC_DOT,         DE_MINS,        KC_RSHIFT,
+    ST_MACRO_0,     DE_LESS,        KC_LCTRL,       KC_LALT,        OSL(11),                                                                                                        DE_UE,          DE_PLUS,        KC_RALT,        TG(13),         DE_AE,
                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_SPACE,       LGUI(KC_TAB),   KC_TRANSPARENT, KC_TRANSPARENT, KC_DELETE,      KC_SPACE
   ),
+  // Mac OS Layout with special Mac OS Vim Layer (12)
   [3] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_NO,                                          KC_TRANSPARENT, KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPACE,
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           DE_PLUS,        DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
     DE_CIRC,        LT(12,KC_A),    LGUI_T(KC_S),   LALT_T(KC_D),   LGUI_T(KC_F),   KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           DE_HASH,        KC_ENTER,
     KC_LSHIFT,      LCTL_T(DE_Y),   KC_X,           KC_C,           KC_V,           KC_B,           LCTL(KC_UP),                                    DE_GRV,         KC_N,           RGUI_T(KC_M),   KC_COMMA,       KC_DOT,         DE_MINS,        KC_RSHIFT,
-    KC_LALT,        DE_LESS,        KC_LCTRL,       KC_LGUI,        OSL(12),                                                                                                        DE_UE,          DE_PLUS,        KC_NO,          DE_OE,          DE_AE,
+    ST_MACRO_0,     DE_LESS,        KC_LCTRL,       KC_LGUI,        OSL(12),                                                                                                        DE_UE,          DE_PLUS,        KC_NO,          DE_OE,          DE_AE,
                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_SPACE,       LCTL(KC_DOWN),  KC_TRANSPARENT, KC_TRANSPARENT, KC_DELETE,      KC_SPACE
   ),
+  // Experimental Shifted Mac Layout (not used)
   [4] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, RSFT(KC_Q),     RSFT(KC_W),     RSFT(KC_E),     RSFT(KC_R),     RSFT(KC_T),     DE_Z,                                           KC_TRANSPARENT, RSFT(DE_Z),     RSFT(KC_U),     RSFT(KC_I),     RSFT(KC_O),     RSFT(KC_P),     RSFT(DE_UE),
@@ -122,6 +129,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
+  // The English Keyboard Layout for Linux
+  // -> In Case you have a Linux with an English Keyboard Layout active
+  //    and you can't easily change it.
   [5] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_SLASH,                                       KC_EQUAL,       KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPACE,
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_Z,                                           KC_PLUS,        KC_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
@@ -132,6 +142,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
+  // Experimental Mouse Layer (not used)
   [6] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,                                          KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_UP,       KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_WH_UP,    KC_MS_WH_DOWN,  KC_TRANSPARENT, KC_MS_BTN5,     KC_TRANSPARENT,
@@ -142,6 +153,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_MS_ACCEL1,   KC_MS_ACCEL0,   KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
+  // Experimental Gaming Layout (deprecated in favor of Windows Layout + Arrow Layout)
   [7] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,                                           KC_TRANSPARENT, KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPACE,
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           DE_PLUS,        DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
@@ -152,6 +164,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_AUDIO_MUTE,  KC_MEDIA_PLAY_PAUSE,
                                                                                     KC_SPACE,       KC_BSPACE,      KC_MEDIA_PLAY_PAUSE,KC_AUDIO_MUTE,  KC_DELETE,      KC_SPACE
   ),
+  // Experimental Grid Gaming Layout (created for Starcraft II)
   [8] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,                                           KC_NO,          KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_BSPACE,
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           KC_TRANSPARENT, DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
@@ -162,6 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_F3,          KC_TRANSPARENT,
                                                                                     KC_SPACE,       KC_DELETE,      KC_F4,          KC_TRANSPARENT, KC_TRANSPARENT, KC_SPACE
   ),
+  // Deprecated Special Characters Layout in favor of the Vim Layouts
   [9] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_NO,                                          KC_TRANSPARENT, KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,
     KC_PSCREEN,     DE_EXLM,        DE_DQOT,        DE_LPRN,        DE_RPRN,        DE_PIPE,        KC_TRANSPARENT,                                 KC_TRANSPARENT, DE_EQL,         DE_PARA,        KC_NO,          KC_NO,          KC_ASTR,        DE_UE,
@@ -172,6 +186,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
+  // Experimental Layout Addition to the Grid Gaming Layout
   [10] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,                                          KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -182,6 +197,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
+  // Vim Layout for Windows
   [11] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          TD(TD_END_F4),  KC_F5,          KC_NO,                                          KC_NO,          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_HOME,        KC_NO,
     LALT(KC_TAB),   LGUI(KC_L),     LCTL(KC_RIGHT), DE_LPRN,        DE_RPRN,        KC_NO,          KC_NO,                                          KC_TRANSPARENT, DE_EQL,         DE_LPRN,        DE_RPRN,        KC_DOWN,        LCTL(KC_V),     DE_UE,
@@ -192,6 +208,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_SPACE,       KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_SPACE
   ),
+  // Vim Layout for Mac OS
   [12] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_F1,          KC_F2,          KC_F3,          LGUI(KC_RIGHT), LALT(KC_5),     LALT(KC_6),                                     LALT(KC_5),     LALT(KC_6),     LALT(KC_7),     LALT(KC_8),     LALT(KC_9),     LGUI(KC_LEFT),  KC_NO,
     LGUI(KC_TAB),   LCTL(LGUI(KC_Q)),LALT(KC_RIGHT), RSFT(KC_8),     RSFT(KC_9),     KC_NO,          KC_NO,                                          KC_NO,          DE_EQL,         KC_NO,          KC_NO,          KC_DOWN,        LGUI(KC_V),     DE_UE,
@@ -202,6 +219,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_SPACE,       KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_SPACE
   ),
+  // Arrow Key Layout
   [13] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
@@ -317,7 +335,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {
-      SEND_STRING(SS_LCTL(SS_TAP(X_C)));
+      // This is the Stanard Control Sequence for tmux.
+      SEND_STRING(SS_LCTL(SS_TAP(X_B)));
 
     }
     break;
