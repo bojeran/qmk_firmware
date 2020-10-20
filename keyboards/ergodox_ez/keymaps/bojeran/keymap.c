@@ -81,6 +81,9 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_WIN_WASD] = ACTION_TAP_DANCE_TOGGLE_LAYER(KC_NO, 9),
     [TD_MAC_ARROW] = ACTION_TAP_DANCE_TOGGLE_LAYER(KC_NO, 8),
     [TD_MAC_WASD] = ACTION_TAP_DANCE_TOGGLE_LAYER(KC_NO, 10),
+
+    // in mac layer: Overview and OSL to RtoL Layer on the same key
+    //[TD_MAC_OVERMIRROR] = ACTION_TAP_DANCE_DOUBLE(LCTL(KC_UP), OSL(10)),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -114,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           DE_PLUS,        DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
     DE_CIRC,        LT(5,KC_A),     LCTL_T(KC_S),   LALT_T(KC_D),   LCTL_T(KC_F),   KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           DE_HASH,        KC_ENTER,
     KC_LSHIFT,      LCTL_T(DE_Y),   KC_X,           KC_C,           LGUI_T(KC_V),   KC_B,           LALT(LCTL(KC_TAB)),                             DE_GRV,         KC_N,           RGUI_T(KC_M),   KC_COMMA,       KC_DOT,         DE_MINS,        KC_RSHIFT,
-    TD(TD_WIN_WASD),DE_LESS,        OSL(11),        KC_LALT,        OSL(5),                                                                                                         DE_UE,          DE_PLUS,        KC_RALT,        TD(TD_WIN_ARROW),KC_NO,
+    TD(TD_WIN_WASD),DE_LESS,        KC_LCTRL,       KC_LALT,        OSL(5),                                                                                                         DE_UE,          DE_PLUS,        KC_RALT,        TD(TD_WIN_ARROW),KC_NO,
                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_SPACE,       LGUI(KC_TAB),   KC_TRANSPARENT, KC_TRANSPARENT, KC_DELETE,      KC_SPACE
@@ -125,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           DE_PLUS,        DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
     DE_CIRC,        LT(6,KC_A),     LGUI_T(KC_S),   LALT_T(KC_D),   LGUI_T(KC_F),   KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           DE_HASH,        KC_ENTER,
     KC_LSHIFT,      LCTL_T(DE_Y),   KC_X,           KC_C,           LGUI_T(KC_V),   KC_B,           LCTL(KC_UP),                                    DE_GRV,         KC_N,           RGUI_T(KC_M),   KC_COMMA,       KC_DOT,         DE_MINS,        KC_RSHIFT,
-    TD(TD_MAC_WASD),DE_LESS,        OSL(11),        KC_LGUI,        OSL(6),                                                                                                         KC_NO,          DE_PLUS,        KC_RALT,        TD(TD_MAC_ARROW),KC_NO,
+    TD(TD_MAC_WASD),DE_LESS,        KC_LCTRL,       KC_LGUI,        OSL(6),                                                                                                         KC_NO,          DE_PLUS,        KC_RALT,        TD(TD_MAC_ARROW),KC_NO,
                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_SPACE,       LCTL(KC_DOWN),  KC_TRANSPARENT, KC_TRANSPARENT, KC_DELETE,      KC_SPACE
@@ -148,7 +151,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          TD(TD_END_F4),  KC_F5,          KC_NO,                                          KC_NO,          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_HOME,        KC_NO,
     LALT(KC_TAB),   LGUI(KC_L),     LCTL(KC_RIGHT), DE_LPRN,        DE_RPRN,        ST_MACRO_3,     KC_NO,                                          KC_TRANSPARENT, DE_EQL,         DE_LPRN,        DE_RPRN,        KC_DOWN,        LCTL(KC_V),     DE_UE,
     DE_CIRC,        KC_TRANSPARENT, DE_PIPE,        DE_LBRC,        DE_RBRC,        DE_BSLS,                                                                        KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       DE_OE,          DE_AE,
-    KC_NO,          LCTL(KC_C),     KC_DELETE,      DE_LCBR,        DE_RCBR,        LCTL(KC_LEFT),  KC_NO,                                          KC_TRANSPARENT, DE_TILD,        DE_AT,          KC_UP,          KC_NO,          KC_NO,          KC_NO,
+    OSL(11),        LCTL(KC_C),     KC_DELETE,      DE_LCBR,        DE_RCBR,        LCTL(KC_LEFT),  KC_NO,                                          KC_TRANSPARENT, DE_TILD,        DE_AT,          KC_UP,          KC_NO,          KC_NO,          KC_NO,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_LALT,                                                                                                        KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_NO,
                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
@@ -159,7 +162,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESCAPE,      KC_F1,          KC_F2,          KC_F3,          LGUI(KC_RIGHT), LALT(KC_5),     LALT(KC_6),                                     LALT(KC_5),     LALT(KC_6),     LALT(KC_7),     LALT(KC_8),     LALT(KC_9),     LGUI(KC_LEFT),  KC_NO,
     LGUI(KC_TAB),   LCTL(LGUI(KC_Q)),LALT(KC_RIGHT),RSFT(KC_8),     RSFT(KC_9),     ST_MACRO_3,     KC_NO,                                          KC_NO,          DE_EQL,         KC_NO,          KC_NO,          KC_DOWN,        LGUI(KC_V),     DE_UE,
     DE_CIRC,        KC_TRANSPARENT, LALT(KC_7),     LALT(KC_5),     LALT(KC_6),     LALT(LSFT(KC_7)),                                                               KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       DE_OE,          DE_AE,
-    KC_NO,          LGUI(KC_C),     KC_DELETE,      LALT(KC_8),     LALT(KC_9),     LALT(KC_LEFT),  KC_NO,                                          KC_NO,          LALT(KC_N),     LALT(KC_L),     KC_UP,          KC_NO,          KC_NO,          KC_NO,
+    OSL(11),        LGUI(KC_C),     KC_DELETE,      LALT(KC_8),     LALT(KC_9),     LALT(KC_LEFT),  KC_NO,                                          KC_NO,          LALT(KC_N),     LALT(KC_L),     KC_UP,          KC_NO,          KC_NO,          KC_NO,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                                                                                          KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_NO,
                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
