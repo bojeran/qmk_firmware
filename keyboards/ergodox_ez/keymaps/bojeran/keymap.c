@@ -102,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // - Control: Turn on or off Features, Switch to the Layer you like.
   // - Testing: Test Features, Macros, Special Settings
   [1] = LAYOUT_ergodox_pretty(
-    KC_NO,          ST_MACRO_0,     ST_MACRO_1,     KC_NO,          KC_NO,          KC_NO,          TG(2),                                          TG(7),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          RESET,
+    DEBUG,          ST_MACRO_0,     ST_MACRO_1,     KC_NO,          KC_NO,          KC_NO,          TG(2),                                          TG(7),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          RESET,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          TG(8),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
     KC_TRANSPARENT, KC_NO,          KC_NO,          KC_NO,          KC_ASOFF,       KC_NO,                                                                          KC_NO,          KC_ASON,        KC_NO,          TOGGLE_LAYER_COLOR,KC_NO,       KC_NO,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
