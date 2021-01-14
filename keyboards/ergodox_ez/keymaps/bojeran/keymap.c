@@ -17,6 +17,8 @@
 #include "keymap_norwegian.h"
 #include "keymap_portuguese.h"
 
+#include "print.h"
+
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
 #define KC_MAC_COPY LGUI(KC_C)
@@ -230,6 +232,10 @@ extern bool g_suspend_state;
 extern rgb_config_t rgb_matrix_config;
 
 void keyboard_post_init_user(void) {
+    //debug_enable=true;
+    //debug_matrix=true;
+    //debug_keyboard=true;
+    //debug_mouse=true;
     rgb_matrix_enable();
 }
 
@@ -321,7 +327,11 @@ void rgb_matrix_indicators_user(void) {
 // What happens when you press a Macro Key
 // You can lower e.g. the Delay or trigger a custom method
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
+    // If console is enabled, it will print the matrix position and status of each key pressed
+#ifdef CONSOLE_ENABLE
+    dprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
+#endif
+    switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {
       // This is the Stanard Control Sequence for tmux.
@@ -348,10 +358,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     break;
     case DE_LSPO:
-      perform_space_cadet(record, KC_LSFT, KC_LSFT, KC_8);
+      perform_space_cadet(record, keycode, KC_LSFT, KC_LSFT, KC_8);
       return false;
     case DE_RSPC:
-      perform_space_cadet(record, KC_LSFT, KC_LSFT, KC_9);
+      perform_space_cadet(record, keycode, KC_LSFT, KC_LSFT, KC_9);
       return false;
     case RGB_SLD:
       if (record->event.pressed) {

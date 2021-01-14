@@ -40,12 +40,12 @@
 
 // Either Disable all DEBUGGING or leave it
 // enabled.
-//#undef NO_DEBUG
-//#define NO_DEBUG
+#undef NO_DEBUG
+#define NO_DEBUG
 // This option allows you to see the Scan Rate
 // inside of QMK Toolbox when connected to
 // the keyboard.
-#define DEBUG_MATRIX_SCAN_RATE
+//#define DEBUG_MATRIX_SCAN_RATE
 
 #undef NO_PRINT
 #define NO_PRINT
