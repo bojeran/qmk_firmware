@@ -41,6 +41,8 @@ enum custom_keycodes {
   ST_MACRO_1,
   ST_MACRO_2,
   ST_MACRO_3,
+  ST_MACRO_4,
+  ST_MACRO_5,
   DE_LSPO,
   DE_RSPC,
 };
@@ -151,7 +153,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Vim Layout for Windows
   [5] = LAYOUT_ergodox_pretty(
     KC_TRANSPARENT, KC_F1,          KC_F2,          KC_F3,          TD(TD_END_F4),  KC_F5,          KC_NO,                                          KC_NO,          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_HOME,        KC_NO,
-    LALT(KC_TAB),   LGUI(KC_L),     LCTL(KC_RIGHT), DE_LPRN,        DE_RPRN,        ST_MACRO_3,     KC_NO,                                          KC_TRANSPARENT, DE_EQL,         DE_LPRN,        DE_RPRN,        KC_DOWN,        LCTL(KC_V),     DE_UE,
+    LALT(KC_TAB),   LGUI(KC_L),     LCTL(KC_RIGHT), DE_LPRN,        DE_RPRN,        ST_MACRO_3,     ST_MACRO_4,                                     KC_TRANSPARENT, DE_EQL,         DE_LPRN,        DE_RPRN,        KC_DOWN,        LCTL(KC_V),     DE_UE,
     DE_CIRC,        KC_TRANSPARENT, DE_PIPE,        DE_LBRC,        DE_RBRC,        DE_BSLS,                                                                        KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       DE_OE,          DE_AE,
     OSL(11),        LCTL(KC_C),     KC_DELETE,      DE_LCBR,        DE_RCBR,        LCTL(KC_LEFT),  KC_NO,                                          KC_TRANSPARENT, DE_TILD,        DE_AT,          KC_UP,          KC_NO,          KC_NO,          KC_NO,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_LALT,                                                                                                        KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_NO,
@@ -162,7 +164,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Vim Layout for Mac OS
   [6] = LAYOUT_ergodox_pretty(
     KC_ESCAPE,      KC_F1,          KC_F2,          KC_F3,          LGUI(KC_RIGHT), LALT(KC_5),     LALT(KC_6),                                     LALT(KC_5),     LALT(KC_6),     LALT(KC_7),     LALT(KC_8),     LALT(KC_9),     LGUI(KC_LEFT),  KC_NO,
-    LGUI(KC_TAB),   LCTL(LGUI(KC_Q)),LALT(KC_RIGHT),RSFT(KC_8),     RSFT(KC_9),     ST_MACRO_3,     KC_NO,                                          KC_NO,          DE_EQL,         KC_NO,          KC_NO,          KC_DOWN,        LGUI(KC_V),     DE_UE,
+    LGUI(KC_TAB),   LCTL(LGUI(KC_Q)),LALT(KC_RIGHT),RSFT(KC_8),     RSFT(KC_9),     ST_MACRO_3,     ST_MACRO_5,                                     KC_NO,          DE_EQL,         KC_NO,          KC_NO,          KC_DOWN,        LGUI(KC_V),     DE_UE,
     DE_CIRC,        KC_TRANSPARENT, LALT(KC_7),     LALT(KC_5),     LALT(KC_6),     LALT(LSFT(KC_7)),                                                               KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       DE_OE,          DE_AE,
     OSL(11),        LGUI(KC_C),     KC_DELETE,      LALT(KC_8),     LALT(KC_9),     LALT(KC_LEFT),  KC_NO,                                          KC_NO,          LALT(KC_N),     LALT(KC_L),     KC_UP,          KC_NO,          KC_NO,          KC_NO,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                                                                                          KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_NO,
@@ -354,6 +356,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case ST_MACRO_3:
     if (record->event.pressed) {
       SEND_STRING(SS_TAP(X_Z) SS_DELAY(100) SS_TAP(X_T));
+
+    }
+    break;
+    case ST_MACRO_4:
+    if (record->event.pressed) {
+      SEND_STRING(SS_LGUI(SS_LSFT(SS_TAP(X_S))));
+
+    }
+    break;
+    case ST_MACRO_5:
+    if (record->event.pressed) {
+      SEND_STRING(SS_LCTL(SS_LGUI(SS_LSFT(SS_TAP(X_4)))));
 
     }
     break;
