@@ -51,6 +51,9 @@ enum custom_keycodes {
   ST_MACRO_3,
   ST_MACRO_4,
   ST_MACRO_5,
+  ST_MACRO_6,
+  ST_MACRO_7,
+  ST_MACRO_8,
   DE_LSPO,
   DE_RSPC,
 };
@@ -64,7 +67,45 @@ enum {
     TD_WIN_WASD,
     TD_MAC_ARROW,
     TD_MAC_WASD,
+    TD_WIN_KVM,
+    TD_MAC_KVM,
 };
+
+void kvm_switch_layer_win(qk_tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
+        case 2:
+            // switch to Windows PC
+            SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_1)  SS_DELAY(100) SS_TAP(X_ENTER));
+            //reset_tap_dance(state)
+            break;
+        case 3:
+            // switch to Mac
+            SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_2)  SS_DELAY(100) SS_TAP(X_ENTER));
+            break;
+        case 4:
+            // switch to Linux
+            SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_3)  SS_DELAY(100) SS_TAP(X_ENTER));
+            break;
+    }
+}
+
+void kvm_switch_layer_mac(qk_tap_dance_state_t *state, void *user_data) {
+    switch(state->count) {
+        case 2:
+            // switch to Mac
+            SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_2)  SS_DELAY(100) SS_TAP(X_ENTER));
+            //reset_tap_dance(state)
+            break;
+        case 3:
+            // switch to Windows PC
+            SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_1)  SS_DELAY(100) SS_TAP(X_ENTER));
+            break;
+        case 4:
+            // switch to Linux
+            SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_3)  SS_DELAY(100) SS_TAP(X_ENTER));
+            break;
+    }
+}
 
 // Tap Dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -96,6 +137,11 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
     // in mac layer: Overview and OSL to RtoL Layer on the same key
     //[TD_MAC_OVERMIRROR] = ACTION_TAP_DANCE_DOUBLE(LCTL(KC_UP), OSL(10)),
+
+    // in win and mac layer: create a button to tell the KVM switch to switch
+    //                       to either the windows PC or Mac
+    [TD_WIN_KVM] = ACTION_TAP_DANCE_FN(kvm_switch_layer_win),
+    [TD_MAC_KVM] = ACTION_TAP_DANCE_FN(kvm_switch_layer_mac),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -114,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // - Control: Turn on or off Features, Switch to the Layer you like.
   // - Testing: Test Features, Macros, Special Settings
   [1] = LAYOUT_ergodox_pretty(
-    DEBUG,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          TG(2),                                          TG(7),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          RESET,
+    DEBUG,          ST_MACRO_6,     ST_MACRO_7,     ST_MACRO_8,     KC_NO,          KC_NO,          TG(2),                                          TG(7),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          RESET,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          TG(8),          KC_NO,          KC_NO,          KC_NO,          WEBUSB_PAIR,    KC_NO,          KC_NO,
     KC_TRANSPARENT, KC_NO,          KC_NO,          KC_NO,          KC_ASOFF,       KC_NO,                                                                          KC_NO,          KC_ASON,        KC_NO,          TOGGLE_LAYER_COLOR,KC_NO,       KC_NO,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
@@ -129,7 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           DE_PLUS,        DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
     DE_CIRC,        LT(5,KC_A),     LCTL_T(KC_S),   LALT_T(KC_D),   LCTL_T(KC_F),   KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           DE_HASH,        KC_ENTER,
     KC_LSHIFT,      LCTL_T(DE_Y),   KC_X,           KC_C,           LGUI_T(KC_V),   KC_B,           LALT(LCTL(KC_TAB)),                             DE_GRV,         KC_N,           RGUI_T(KC_M),   KC_COMMA,       KC_DOT,         DE_MINS,        KC_RSHIFT,
-    TD(TD_WIN_WASD),DE_LESS,        KC_LCTRL,       KC_LALT,        OSL(5),                                                                                                         DE_UE,          DE_PLUS,        KC_RALT,        TD(TD_WIN_ARROW),KC_NO,
+    TD(TD_WIN_WASD),DE_LESS,        KC_LCTRL,       KC_LALT,        OSL(5),                                                                                                         DE_UE,          DE_PLUS,        KC_RALT,        TD(TD_WIN_ARROW),TD(TD_WIN_KVM),
                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_SPACE,       LGUI(KC_TAB),   KC_TRANSPARENT, KC_TRANSPARENT, KC_DELETE,      KC_SPACE
@@ -141,7 +187,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           DE_Z,                                           DE_PLUS,        DE_Z,           KC_U,           KC_I,           KC_O,           KC_P,           DE_SS,
     DE_LESS,        LT(6,KC_A),     LGUI_T(KC_S),   LALT_T(KC_D),   LGUI_T(KC_F),   KC_G,                                                                           KC_H,           KC_J,           KC_K,           KC_L,           DE_HASH,        KC_ENTER,
     KC_LSHIFT,      LCTL_T(DE_Y),   KC_X,           KC_C,           LGUI_T(KC_V),   KC_B,           LCTL(KC_UP),                                    DE_GRV,         KC_N,           RGUI_T(KC_M),   KC_COMMA,       KC_DOT,         DE_MINS,        KC_RSHIFT,
-    TD(TD_MAC_WASD),DE_CIRC,        KC_LCTRL,       KC_LGUI,        OSL(6),                                                                                                         KC_NO,          DE_PLUS,        KC_RALT,        TD(TD_MAC_ARROW),KC_NO,
+    TD(TD_MAC_WASD),DE_CIRC,        KC_LCTRL,       KC_LGUI,        OSL(6),                                                                                                         KC_NO,          DE_PLUS,        KC_RALT,        TD(TD_MAC_ARROW),TD(TD_MAC_KVM),
                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                                                     KC_TRANSPARENT, KC_TRANSPARENT,
                                                                                     KC_SPACE,       LCTL(KC_DOWN),  KC_TRANSPARENT, KC_TRANSPARENT, KC_DELETE,      KC_SPACE
@@ -253,7 +299,7 @@ void keyboard_post_init_user(void) {
 const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [0] = { {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {14,222,242}, {14,222,242}, {14,222,242}, {14,222,242}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {146,224,255}, {85,203,158}, {169,120,255}, {31,255,255}, {146,224,255} },
 
-    [1] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {10,225,255}, {0,0,0}, {0,0,0}, {85,203,158}, {0,0,0}, {31,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {31,255,255}, {30,96,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {243,222,234}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
+    [1] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {10,225,255}, {0,0,0}, {0,0,0}, {85,203,158}, {0,0,0}, {31,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {31,255,255}, {30,96,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {254,198,190}, {0,0,255}, {141,255,233}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {243,222,234}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
 
     [2] = { {15,176,169}, {15,176,169}, {15,176,169}, {15,176,169}, {15,176,169}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {169,120,255}, {15,176,169}, {15,176,169}, {15,176,169}, {15,176,169}, {15,176,169}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {249,228,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255}, {35,255,255} },
 
@@ -377,6 +423,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case ST_MACRO_5:
     if (record->event.pressed) {
       SEND_STRING(SS_LCTL(SS_LGUI(SS_LSFT(SS_TAP(X_4)))));
+
+    }
+    break;
+    case ST_MACRO_6:
+    if (record->event.pressed) {
+        SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_1)  SS_DELAY(100) SS_TAP(X_ENTER));
+
+    }
+    break;
+    case ST_MACRO_7:
+    if (record->event.pressed) {
+        SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_2)  SS_DELAY(100) SS_TAP(X_ENTER));
+
+    }
+    break;
+    case ST_MACRO_8:
+    if (record->event.pressed) {
+        SEND_STRING(SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_SCROLLLOCK) SS_DELAY(100) SS_TAP(X_3)  SS_DELAY(100) SS_TAP(X_ENTER));
 
     }
     break;
