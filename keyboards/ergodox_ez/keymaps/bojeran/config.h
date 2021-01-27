@@ -71,3 +71,6 @@
 // you press multiple keys at the same time?
 //#undef QMK_KEYS_PER_SCAN
 //#define QMK_KEYS_PER_SCAN 4
+
+// Sets the default animation speed, if none has been set
+#define RGB_MATRIX_STARTUP_SPD 60
